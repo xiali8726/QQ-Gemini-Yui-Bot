@@ -1402,17 +1402,21 @@ class RandomEventHandler:
         )
 
         if not event_config:
-            # logger.debug(f"未找到事件 '{event_id}' 的配置，上下文 user='{user_id}', group='{group_id}'")
+            logger.debug(f"未找到事件 '{event_id}' 的配置，上下文 user='{user_id}', group='{group_id}'")
             return False, None
 
         # 2. 检查在此上下文中是否启用
-        is_enabled = event_config.get("enabled", False)
+        is_enabled = self.config_manager.get(
+            f"{event_config_key}.enabled", user_id=user_id, group_id=group_id, default=None
+        )
         if not is_enabled:
-            # logger.debug(f"事件 '{event_id}' 在此上下文中被禁用。")
+            logger.debug(f"事件 '{event_id}' 在此上下文中被禁用。")
             return False, None
 
         # 3. 检查概率
-        probability = event_config.get("probability", 0.0)
+        probability = self.config_manager.get(
+            f"{event_config_key}.probability", user_id=user_id, group_id=group_id, default=None
+        )
         random_prob = random.random()
         if random_prob > probability:
             logger.info(
@@ -1424,7 +1428,9 @@ class RandomEventHandler:
         individual_cooldown_checked = False  # 跟踪是否应用了个人冷却时间的标志
 
         # 4a. 首先检查个人冷却时间
-        min_interval = event_config.get("min_interval", -1)  # 如果缺失则默认为 -1
+        min_interval = self.config_manager.get(
+            f"{event_config_key}.min_interval", user_id=user_id, group_id=group_id, default=None
+        )
         # 将 min_interval > -1 视为显式的个人冷却时间设置
         if min_interval > -1:
             individual_cooldown_checked = True  # 我们正在应用个人检查
@@ -1456,7 +1462,9 @@ class RandomEventHandler:
         # 4b. 仅当未检查/应用个人冷却时间时检查共享冷却时间
         # 仅在群组中检查，并且 min_interval 实际上是 -1。
         if not individual_cooldown_checked and group_id:
-            shared_interval = event_config.get("shared_min_interval", 0)
+            shared_interval = self.config_manager.get(
+            f"{event_config_key}.shared_min_interval", user_id=user_id, group_id=group_id, default=None
+        )
             if shared_interval > 0:
                 shared_trigger_key = f"{event_id}_shared_group_{group_id}"
                 last_time_shared = self.last_trigger_times.get(shared_trigger_key)
