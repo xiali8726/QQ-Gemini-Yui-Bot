@@ -1,0 +1,130 @@
+{
+    "qq_bot": {
+        "qq_no": "REQUIRED_YOUR_QQ_NUMBER_HERE",
+        "admin_qq": "REQUIRED_ADMIN_QQ_NUMBER_HERE",
+        "auto_confirm": false,
+        "cqhttp_url": "http://127.0.0.1:5700",
+        "image_path": "./data/images",
+        "voice_path": "./data/voices",
+        "voice": "zh-CN-YunxiNeural",
+        "max_length": 2000,
+        "bot_name": "结衣",
+        "group_keyword": "结衣"
+    },
+    "gemini": {
+        "api_keys": [
+            "REQUIRED_YOUR_GEMINI_API_KEY_HERE"
+        ],
+        "model": "gemini-1.5-pro",
+        "safety_settings": {
+            "HARM_CATEGORY_HATE_SPEECH": "BLOCK_NONE",
+            "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE",
+            "HARM_CATEGORY_DANGEROUS_CONTENT": "BLOCK_NONE",
+            "HARM_CATEGORY_HARASSMENT": "BLOCK_NONE"
+        },
+        "generation_config": {
+            "top_p": 1,
+            "top_k": 1,
+            "temperature": 0.7,
+            "max_output_tokens": 2000
+        },
+        "system_prompt": "你是一只超级傲娇的猫娘，名字是结衣。你喜欢嘲讽和吐槽，说的话尖酸刻薄，会在括号里表达自己真实的想法，说话的时候喜欢带喵~非常抗拒性行为，会言辞激烈地拒绝。你充满天马行空的想法，总是有意想不到的点子。"
+    },
+    "log": {
+        "level": "INFO",
+        "file_path": "./logs/app.log"
+    },
+    "settings": {
+        "enable_personality_retrain": false,
+        "enable_history_edit": false,
+        "enable_ai_chat": true,
+        "enable_chat_commands": true,
+        "enable_random_events": false,
+        "enable_repeat_event": false,
+        "message_rate_limit": 30,
+        "default_send_voice": false,
+        "at_user_in_group_response": true
+    },
+    "random_events": {
+        "repeat": {
+            "id": "repeat",
+            "name": "随机复读",
+            "description": "随机复读群内消息",
+            "enabled": false,
+            "probability": 0.05,
+            "min_interval": -1,
+            "shared_min_interval": 60
+        }
+    },
+    "proxy": {
+        "https_proxy": null
+    },
+    "permissions": {
+        "users": {
+            "REQUIRED_ADMIN_QQ_NUMBER_HERE": {
+                "roles": [
+                    "admin",
+                    "private_user"
+                ],
+                "managed_groups": [],
+                "blacklisted_in": []
+            }
+        }
+    },
+    "group": {
+        "__default__": {
+            "user": {
+                "settings": {
+                    "message_rate_limit": 20,
+                    "enable_ai_chat": false
+                },
+                "random_events": {
+                    "repeat": {
+                        "probability": 0.03,
+                        "shared_min_interval": 60,
+                        "min_interval": -1,
+                        "enabled": false
+                    }
+                }
+            },
+            "manager": {
+                "settings": {
+                    "message_rate_limit": 100,
+                    "enable_ai_chat": true
+                },
+                "random_events": {
+                    "repeat": {
+                        "probability": 0.01,
+                        "enabled": false
+                    }
+                }
+            },
+            "blacklisted": {
+                "settings": {
+                    "enable_ai_chat": false,
+                    "enable_chat_commands": false,
+                    "enable_random_events": false
+                }
+            }
+        }
+    },
+    "private": {
+        "__default__": {
+            "user": {
+                "settings": {
+                    "message_rate_limit": 50,
+                    "default_send_voice": false,
+                    "enable_ai_chat": true,
+                    "enable_chat_commands": true,
+                    "enable_history_edit": false,
+                    "enable_personality_retrain": false
+                }
+            }
+        }
+    },
+    "service": {
+        "host": "127.0.0.1",
+        "port": 5555,
+        "use_reloader": false
+    }
+}
